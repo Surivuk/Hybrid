@@ -23,6 +23,10 @@
 		3FBCD80E560B4ADB9BCF8080 /* CDVBattery.m in Sources */ = {isa = PBXBuildFile; fileRef = 18407265B8444D15AE7529DE /* CDVBattery.m */; };
 		ED3E44EEE26D47A29610AAEB /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = F10751E3029649469F884C10 /* CDVLogger.m */; };
 		D97137B34BB640F1846BA117 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E4227C64CE418092D0FBE0 /* CDVStatusBar.m */; };
+		74B3A7949A57481B9854900D /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAB686FD9CF46909A45C914 /* CDVLocation.m */; };
+		EEB0A2DBBE1A4015A95536E3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D975EF71D34461AB2C7738 /* CoreLocation.framework */; };
+		2EA6D00C77FF4610A5C24E50 /* Sms.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D28088742EC4BFBB9AFF894 /* Sms.m */; };
+		F4AAAEDA03F349D19E056A83 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3409F11369ED48109C9CD451 /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +80,12 @@
 		765B6824550E44E2A190E28B /* CDVLogger.h */ = {isa = PBXFileReference; name = "CDVLogger.h"; path = "cordova-plugin-console/CDVLogger.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		63E4227C64CE418092D0FBE0 /* CDVStatusBar.m */ = {isa = PBXFileReference; name = "CDVStatusBar.m"; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		6E572D0CD0AC4F51B1511500 /* CDVStatusBar.h */ = {isa = PBXFileReference; name = "CDVStatusBar.h"; path = "cordova-plugin-statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		EBAB686FD9CF46909A45C914 /* CDVLocation.m */ = {isa = PBXFileReference; name = "CDVLocation.m"; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		95FF4486E5F34ED1B857B14C /* CDVLocation.h */ = {isa = PBXFileReference; name = "CDVLocation.h"; path = "cordova-plugin-geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		66D975EF71D34461AB2C7738 /* CoreLocation.framework */ = {isa = PBXFileReference; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		6D28088742EC4BFBB9AFF894 /* Sms.m */ = {isa = PBXFileReference; name = "Sms.m"; path = "com.cordova.plugins.sms/Sms.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		F89F5A8AE5C1403480CCA9EE /* Sms.h */ = {isa = PBXFileReference; name = "Sms.h"; path = "com.cordova.plugins.sms/Sms.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		3409F11369ED48109C9CD451 /* MessageUI.framework */ = {isa = PBXFileReference; name = "MessageUI.framework"; path = "System/Library/Frameworks/MessageUI.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +96,8 @@
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				A3C89163FE0F49DE91F90F85 /* SystemConfiguration.framework in Frameworks */,
 				F0E81AD14A0049AB8065CE3D /* CoreTelephony.framework in Frameworks */,
+				EEB0A2DBBE1A4015A95536E3 /* CoreLocation.framework in Frameworks */,
+				F4AAAEDA03F349D19E056A83 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +169,8 @@
 			children = (
 				0E9D9E9DF61349CE9E3B2D9A /* SystemConfiguration.framework */,
 				F35ADCE173E7463387604A04 /* CoreTelephony.framework */,
+				66D975EF71D34461AB2C7738 /* CoreLocation.framework */,
+				3409F11369ED48109C9CD451 /* MessageUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -194,6 +208,10 @@
 				765B6824550E44E2A190E28B /* CDVLogger.h */,
 				63E4227C64CE418092D0FBE0 /* CDVStatusBar.m */,
 				6E572D0CD0AC4F51B1511500 /* CDVStatusBar.h */,
+				EBAB686FD9CF46909A45C914 /* CDVLocation.m */,
+				95FF4486E5F34ED1B857B14C /* CDVLocation.h */,
+				6D28088742EC4BFBB9AFF894 /* Sms.m */,
+				F89F5A8AE5C1403480CCA9EE /* Sms.h */,
 			);
 			name = Plugins;
 			path = "HelloWorld/Plugins";
@@ -314,6 +332,8 @@
 				3FBCD80E560B4ADB9BCF8080 /* CDVBattery.m in Sources */,
 				ED3E44EEE26D47A29610AAEB /* CDVLogger.m in Sources */,
 				D97137B34BB640F1846BA117 /* CDVStatusBar.m in Sources */,
+				74B3A7949A57481B9854900D /* CDVLocation.m in Sources */,
+				2EA6D00C77FF4610A5C24E50 /* Sms.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,7 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+
 var app = {
+
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -27,24 +30,90 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+
+
+        //document.addEventListener('deviceready', this.mySocket, false);
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+        document.addEventListener("online", function() {
+            if (navigator.connection.type === Connection.NONE || (global.google !== undefined && global.google.maps)) {
+                return;
+            }
+
+            //TODO: Add your own Google maps API key to the URL below.
+            //src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+            $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTpGOYpsxSsT2ku_NHGooQilONWiOs8k&callback=initMap');
+        }, false);
+        document.addEventListener("resume", function() {
+            if (navigator.connection.type === Connection.NONE || (global.google !== undefined && global.google.maps)) {
+                return;
+            }
+
+            //TODO: Add your own Google maps API key to the URL below.
+            //src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+            $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTpGOYpsxSsT2ku_NHGooQilONWiOs8k&callback=initMap');
+        }, false);
+
+        if (navigator.connection.type === Connection.NONE || (global.google !== undefined && global.google.maps)) {
+            return;
+        }
+
+        //TODO: Add your own Google maps API key to the URL below.
+        //src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+        $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTpGOYpsxSsT2ku_NHGooQilONWiOs8k&callback=initMap');
+        //app entrance
+
+
+        ApplicationModule.init('content');
+
+        //
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
+        /*var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
+*/
+        if (navigator.connection.type === Connection.NONE || (global.google !== undefined && global.google.maps)) {
+            return;
+        }
+
+        //TODO: Add your own Google maps API key to the URL below.
+        //src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+        $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTpGOYpsxSsT2ku_NHGooQilONWiOs8k&callback=initMap');
         console.log('Received Event: ' + id);
+    },
+    onOnline: function() {
+        this.loadMapsApi();
+    },
+    onResume: function() {
+        this.loadMapsApi();
+    },
+    loadMapsApi: function() {
+        if (navigator.connection.type === Connection.NONE || (global.google !== undefined && global.google.maps)) {
+            return;
+        }
+
+        //TODO: Add your own Google maps API key to the URL below.
+        //src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+        $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTpGOYpsxSsT2ku_NHGooQilONWiOs8k&callback=initMap');
+    },
+    //mySocket: function(){ My_socket(); }
+    initMap: function() {
+        // Maps API loaded and ready to be used.
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 8,
+            center: new google.maps.LatLng(-34.397, 150.644)
+        });
     }
 };
 
