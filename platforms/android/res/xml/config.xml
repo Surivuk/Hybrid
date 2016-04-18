@@ -21,6 +21,12 @@
     <feature name="WebSocket">
         <param name="android-package" value="com.knowledgecode.cordova.websocket.WebSocket" />
     </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <feature name="Sms">
+        <param name="android-package" value="com.cordova.plugins.sms.Sms" />
+    </feature>
     <allow-intent href="market:*" />
     <name>HelloWorld</name>
     <description>

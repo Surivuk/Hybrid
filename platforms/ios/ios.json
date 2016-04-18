@@ -35,6 +35,24 @@
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Sms\"><param name=\"ios-package\" value=\"Sms\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "*-Info.plist": {
+                "parents": {
+                    "NSLocationWhenInUseUsageDescription": [
+                        {
+                            "xml": "<string />",
+                            "count": 1
                         }
                     ]
                 }
@@ -61,6 +79,12 @@
             "PACKAGE_NAME": "com.example.hello"
         },
         "cordova-plugin-websocket": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "com.cordova.plugins.sms": {
             "PACKAGE_NAME": "com.example.hello"
         }
     },
@@ -122,6 +146,46 @@
             "clobbers": [
                 "window.StatusBar"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
+            "id": "cordova-plugin-geolocation.Coordinates",
+            "pluginId": "cordova-plugin-geolocation",
+            "clobbers": [
+                "Coordinates"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+            "id": "cordova-plugin-geolocation.PositionError",
+            "pluginId": "cordova-plugin-geolocation",
+            "clobbers": [
+                "PositionError"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-geolocation/www/Position.js",
+            "id": "cordova-plugin-geolocation.Position",
+            "pluginId": "cordova-plugin-geolocation",
+            "clobbers": [
+                "Position"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-geolocation/www/geolocation.js",
+            "id": "cordova-plugin-geolocation.geolocation",
+            "pluginId": "cordova-plugin-geolocation",
+            "clobbers": [
+                "navigator.geolocation"
+            ]
+        },
+        {
+            "file": "plugins/com.cordova.plugins.sms/www/sms.js",
+            "id": "com.cordova.plugins.sms.Sms",
+            "pluginId": "com.cordova.plugins.sms",
+            "clobbers": [
+                "window.sms"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -131,6 +195,8 @@
         "cordova-plugin-battery-status": "1.1.1",
         "cordova-plugin-console": "1.0.2",
         "cordova-plugin-statusbar": "2.1.2",
-        "cordova-plugin-websocket": "0.12.0"
+        "cordova-plugin-websocket": "0.12.0",
+        "cordova-plugin-geolocation": "2.1.0",
+        "com.cordova.plugins.sms": "0.1.10"
     }
 }

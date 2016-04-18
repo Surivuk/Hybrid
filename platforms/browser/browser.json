@@ -1,0 +1,138 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"browser-package\" value=\"Device\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "cordova-plugin-battery-status": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "cordova-plugin-websocket": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "com.cordova.plugins.sms": {
+            "PACKAGE_NAME": "com.example.hello"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/cordova-plugin-battery-status/www/battery.js",
+            "id": "cordova-plugin-battery-status.battery",
+            "pluginId": "cordova-plugin-battery-status",
+            "clobbers": [
+                "navigator.battery"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-battery-status/src/browser/BatteryProxy.js",
+            "id": "cordova-plugin-battery-status.Battery",
+            "pluginId": "cordova-plugin-battery-status",
+            "runs": true
+        },
+        {
+            "file": "plugins/cordova-plugin-device/www/device.js",
+            "id": "cordova-plugin-device.device",
+            "pluginId": "cordova-plugin-device",
+            "clobbers": [
+                "device"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-device/src/browser/DeviceProxy.js",
+            "id": "cordova-plugin-device.DeviceProxy",
+            "pluginId": "cordova-plugin-device",
+            "runs": true
+        },
+        {
+            "file": "plugins/cordova-plugin-network-information/www/network.js",
+            "id": "cordova-plugin-network-information.network",
+            "pluginId": "cordova-plugin-network-information",
+            "clobbers": [
+                "navigator.connection",
+                "navigator.network.connection"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-network-information/www/Connection.js",
+            "id": "cordova-plugin-network-information.Connection",
+            "pluginId": "cordova-plugin-network-information",
+            "clobbers": [
+                "Connection"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-network-information/src/browser/network.js",
+            "id": "cordova-plugin-network-information.NetworkInfoProxy",
+            "pluginId": "cordova-plugin-network-information",
+            "runs": true
+        },
+        {
+            "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+            "id": "cordova-plugin-statusbar.statusbar",
+            "pluginId": "cordova-plugin-statusbar",
+            "clobbers": [
+                "window.StatusBar"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-statusbar/src/browser/statusbar.js",
+            "id": "cordova-plugin-statusbar.statusbar.Browser",
+            "pluginId": "cordova-plugin-statusbar",
+            "merges": [
+                "window.StatusBar"
+            ]
+        },
+        {
+            "file": "plugins/com.cordova.plugins.sms/www/sms.js",
+            "id": "com.cordova.plugins.sms.Sms",
+            "pluginId": "com.cordova.plugins.sms",
+            "clobbers": [
+                "window.sms"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "cordova-plugin-battery-status": "1.1.1",
+        "cordova-plugin-console": "1.0.2",
+        "cordova-plugin-device": "1.1.1",
+        "cordova-plugin-network-information": "1.2.0",
+        "cordova-plugin-statusbar": "2.1.2",
+        "cordova-plugin-websocket": "0.12.0",
+        "cordova-plugin-whitelist": "1.2.1",
+        "cordova-plugin-geolocation": "2.1.0",
+        "com.cordova.plugins.sms": "0.1.10"
+    }
+}

@@ -47,6 +47,25 @@ module.exports = [
         "clobbers": [
             "WebSocket"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+        "id": "cordova-plugin-geolocation.geolocation",
+        "clobbers": [
+            "navigator.geolocation"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+        "id": "cordova-plugin-geolocation.PositionError",
+        "runs": true
+    },
+    {
+        "file": "plugins/com.cordova.plugins.sms/www/sms.js",
+        "id": "com.cordova.plugins.sms.Sms",
+        "clobbers": [
+            "window.sms"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -58,7 +77,9 @@ module.exports.metadata =
     "cordova-plugin-battery-status": "1.1.1",
     "cordova-plugin-console": "1.0.2",
     "cordova-plugin-statusbar": "2.1.2",
-    "cordova-plugin-websocket": "0.12.0"
+    "cordova-plugin-websocket": "0.12.0",
+    "cordova-plugin-geolocation": "2.1.0",
+    "com.cordova.plugins.sms": "0.1.10"
 };
 // BOTTOM OF METADATA
 });
