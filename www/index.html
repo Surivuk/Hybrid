@@ -35,48 +35,98 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap_material/bootstrap-material-design.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap_material/ripples.min.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
     <title>Emergency Shouter</title>
 </head>
 
 <body>
-    <div id='cssmenu'>
-        <ul>
-            <li><a id="homeLink" href='#'>Home</a></li>
-            <!--<li class='active has-sub'><a href='#'>Products</a>
+    <div id="wrap">
+        <div id="steps">
+            <i id="compass" class="fa fa-compass fa-lg" aria-hidden="true" data-toggle="modal" data-target="#myModal"></i>
+            <div id='cssmenu'>
                 <ul>
-                    <li class='has-sub'><a href='#'>Product 1</a>
-                        <ul>
-                            <li><a href='#'>Sub Product</a></li>
-                            <li><a href='#'>Sub Product</a></li>
-                        </ul>
-                    </li>
-                    <li class='has-sub'><a href='#'>Product 2</a>
-                        <ul>
-                            <li><a href='#'>Sub Product</a></li>
-                            <li><a href='#'>Sub Product</a></li>
-                        </ul>
-                    </li>
+                    <li><a id="homeLink" href='#'>Home</a></li>
+                    <li><a id="settingsLink" href='#'>Settings</a></li>
+                    <li><a id="dashBoardLink" href='#'>Dashboard</a></li>
+                    <li><a id="loginLink" href='#'>Login</a></li>
+
                 </ul>
-                -->
-            </li>
-            <li><a id="loginLink" href='#'>Login</a></li>
-            <li><a id="dashBoardLink" href='#'>Dashboard</a></li>
-            <li><a id="sqlTest" href='#'>Test Web SQL</a></li>
-        </ul>
+            </div>
+            <div id="content">
+            </div>
+            <div id="map"></div>
     </div>
-    <div id="content">
-        <input id="messageTxt" type="text" placeholder="Type message.." />
-        <button id="sndMsg">Send Acke msg</button>
-        <textarea id="result"></textarea>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body text-center">
+      <div id="compassContent" >
+
+      </div>
+      </div>
+      <div class="modal-footer">
+
+        <button id="closeCompass"type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
+</div>
     <!--<a href="darko.html">Link</a> -->
+
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/jquery/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/jquery/fastclick.js"></script>
     <script type="text/javascript" src="dashboard.js"></script>
+    <script type="text/javascript" src="home.js"></script>
+    <script type="text/javascript" src="setup.js"></script>
+    <script type="text/javascript" src="login.js"></script>
+    <script type="text/javascript" src="compass.js"></script>
+    <script type="text/javascript" src="js/socket.io.js"></script>
+    <script type="text/javascript" src="js/client_side.js"></script>
+    <script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
     <script type="text/javascript" src="js/index2.js"></script>
     <script type="text/javascript" src="js/jquery/menuPlugin.js"></script>
 </body>
+<style>
+#wrap {
+    position: absolute;
+    width: 100%;
+    overflow-y: hidden;
+    top: 0;
+    bottom: 0;
+}
+
+.step {
+    position: relative;
+    /*height: 500px;*/
+    /*margin-bottom: 500px;
+*/
+}
+#compass{
+    position: absolute;
+    left:50%;
+    top:2%;
+    font-size:25px;
+    z-index:50;
+}
+#myModal{
+    opacity: 0.6;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+#closeCompass{
+
+}
+.modal-footer{
+    text-align: center;
+}
+
+</style>
 
 </html>

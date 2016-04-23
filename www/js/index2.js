@@ -1,139 +1,173 @@
 var app = (function(global) {
     "use strict";
+    //use strict means you cant use global variables , e.g variable without var (clean global scope)
     var test = {};
+
+    //singlton objects representing controllers,observers whatever.
     var _dashboard = {};
     var _home = {};
+    var _setup = {};
+    var _login = {};
+    var _compass = {};
+
+    //state of the view (what is user seeing in any given moment)
     var state = 0;
+    //GPS location
     var geolocation = {};
+    geolocation.coords = {};
+    geolocation.coords.latitude = 0.0;
+    geolocation.coords.longitude = 0.0;
+    //var firstTime = true;
 
-    var firstTime = true;
-    var watchID;
+    //watchID for geolocation plugin ( for stoping end starting )
+    var GeolocationWatchID;
 
+    var batteryState = {};
+
+
+    //all the menu / navigation events
     function eventBind() {
 
-        $("#loginLink").click(function() {
+        $("#settingsLink").click(function() {
+            if (state == 2) {
+                _dashboard.hideMap();
+            }
             var menu = $('#menu-button');
             var mainmenu = $(menu).next('ul');
             if (mainmenu.hasClass('open')) {
                 mainmenu.hide().removeClass('open');
             }
-            $("#content").empty();
-            $("#content").load("html/login.html", function() {
-                console.log("Login page loaded.");
-            });
+            _setup.show($("#content"));
             state = 1;
         });
         $("#dashBoardLink").click(function() {
+
             var menu = $('#menu-button');
             var mainmenu = $(menu).next('ul');
             if (mainmenu.hasClass('open')) {
                 mainmenu.hide().removeClass('open');
             }
-            _dashboard.show($("#content"));
+            if (state == 2) return;
+            $("#content").empty();
+            _dashboard.show($("#content"), geolocation.coords);
 
             state = 2;
+            //alert("Stanje posle dashboard click-a :"+state);
         });
         $("#homeLink").click(function() {
+            if (state == 2) {
+                _dashboard.hideMap();
+            }
             var menu = $('#menu-button');
             var mainmenu = $(menu).next('ul');
             if (mainmenu.hasClass('open')) {
                 mainmenu.hide().removeClass('open');
             }
-            $("#content").empty();
-            $("#content").load("html/homepage.html", function() {
-                console.log("Home page loaded.");
-
-            });
+            _home.show($("#content"));
 
             state = 3;
         });
 
-        $("#sqlTest").click(function() {
+        $("#compass").click(function() {
+            console.log("Compass clicked");
+
             var menu = $('#menu-button');
             var mainmenu = $(menu).next('ul');
             if (mainmenu.hasClass('open')) {
                 mainmenu.hide().removeClass('open');
             }
-            $("#content").empty();
-            $("#content").load("html/dashboard.html", function() {
-                //testing($("#dashboardView"))
-            });
+            //alert(state);
+            _compass.show($("#compassContent"));
+            //state = 5;
+        });
+        $("#loginLink").click(function() {
 
+            if (state == 2) {
+                _dashboard.hideMap();
+            }
+            var menu = $('#menu-button');
+            var mainmenu = $(menu).next('ul');
+            if (mainmenu.hasClass('open')) {
+                mainmenu.hide().removeClass('open');
+            }
+            _login.show($("#content"));
 
             state = 4;
-            //alert('sqlTest clicked.');
         });
-        $('#forma').submit(function() {
-            var postTo = 'https://emergencyshouter.herokuapp.com/';
-            $.ajax({
-                type: 'POST',
-                data: 'test',
-                url: 'https://emergencyshouter.herokuapp.com/',
-                success: function(data) {
-                    console.log(data);
-                    alert('Server sent: ' + data);
-                },
-                error: function(data) {
-                    console.log(data);
-                    alert('There was an error adding your comment');
-                }
-            });
-            return false;
-        });
-        $("#sndMsg").click(function() {
-
-            var number = '+381637446277';
-            var message = 'Test from the Cordova app';
-            console.log("number=" + number + ", message= " + message);
-
-            //CONFIGURATION
-            var options = {
-                replaceLineBreaks: false, // true to replace \n by a new line, false by default
-                android: {
-                    intent: 'INTENT' // send SMS with the native android SMS messaging
-                        //intent: '' // send SMS without open any other app
-                }
-            };
-
-            var success = function() { alert('Message sent successfully'); };
-            var error = function(e) { alert('Message Failed:' + e); };
-            sms.send(number, message, options, success, error);
-        });
-    }
-
-    function refreshLocation() {
 
     }
 
+
+    //main entry point
     function onDeviceReady() {
         console.log("On device ready triggered.");
+        //check local storage for
+        var NumberAndMessageSet = localStorage.getItem("numberAndMessage");
+        if(NumberAndMessageSet == null || NumberAndMessageSet == false)
+        {
+            navigator.notification.alert(
+                'Please go to setup and set your message and alert number.',  // message
+                function(){},         // callback
+                'Notification',            // title
+                'Ok'                  // buttonName
+            );
+        }
         var options = { timeout: 30000, enableHighAccuracy: true };
-        watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+        GeolocationWatchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
 
+        global.addEventListener("batterystatus", onBatteryStatus, false);
+        global.addEventListener("batterycritical", onBatteryCritical, false);
+        global.addEventListener("batterylow", onBatteryLow, false);
+
+        document.addEventListener("offline", onOffline, false);
         document.addEventListener("online", onOnline, false);
         document.addEventListener("resume", onResume, false);
 
-        //ApplicationModule.init('content');
-        _dashboard = new dashboard(0);
 
+        _dashboard = new dashboard(0);
+        _home = new home(0);
+        _setup = new setup();
+        _login = new login();
+        _compass = new compass();
         eventBind();
 
+        _home.show($("#content"));
 
         //refreshLocation();
         //loadMapsApi();
-
+        loadMapsApi();
 
     }
 
+    //update home instance when battery changes
+    function onBatteryStatus(status) {
+        _home.updateBatteryStatus(status);
+        //alert("Level: " + status.level + " isPlugged: " + status.isPlugged);
+    }
+
+    function onBatteryCritical(status) {
+        //alert("Battery critical!Status:" + status);
+    }
+
+    function onBatteryLow(status) {
+        //alert("Battery low!Status:" + status);
+    }
+
+    //callback for geolocation watch trigger,home instance location update
+    //and dashboard map update
     function onSuccess(position) {
         geolocation = position;
+        _home.updateGeolocation(geolocation);
         console.log(geolocation);
-        if (firstTime) {
-            firstTime = false;
+
+
+
+        /*if (firstTime) {
+
             loadMapsApi();
-        } else {
-            _dashboard.mapUpdate(position);
-        }
+        } else {*/
+            _dashboard.mapUpdate(geolocation.coords);
+        //}
 
     }
 
@@ -141,49 +175,57 @@ var app = (function(global) {
     //
     function onError(error) {
         console.log(error);
-        alert('code: ' + error.code + '\n' +
-            'message: ' + error.message + '\n');
+        //alert('code: ' + error.code + '\n' +'message: ' + error.message + '\n');
         loadMapsApi();
     }
 
+    //callbacks for device state (connectivity and resuming)
     function onOnline() {
-        console.log("Device is online.");
+        //alert("device online");
         loadMapsApi();
     }
 
     function onResume() {
-        console.log("Device is resumed.");
+        //alert("Device is resumed.");
         loadMapsApi();
     }
 
+    function onOffline() {
+        //alert("device offline");
+    }
+
+    //loads scripts if you are connected and script isn't loaded
     function loadMapsApi() {
 
+        //firstTime = false;
+        //_dashboard.mapLoad(geolocation);
 
-        _dashboard.mapLoad(geolocation);
 
 
-
-        /*if (navigator.connection.type === Connection.NONE || (global.google !== undefined && global.google.maps)) {
+        if (navigator.connection.type === Connection.NONE || (global.google !== undefined && global.google.maps)) {
             return;
         }
 
         //TODO: Add your own Google maps API key to the URL below.
-        $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTpGOYpsxSsT2ku_NHGooQilONWiOs8k&callback=onMapsApiLoaded');*/
+        $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTpGOYpsxSsT2ku_NHGooQilONWiOs8k&callback=onMapsApiLoaded');
     }
-
+    //global function for script onload,map size callculation and dashboard prompt for creation.
     global.onMapsApiLoaded = function() {
         // Maps API loaded and ready to be used.
-        /*test.map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 8,
-            center: new google.maps.LatLng(-34.397, 150.644)
-        });*/
+
+        var h = window.screen.height / window.devicePixelRatio;
+        $("#map").height(h * 0.8);
+
+        _dashboard.newMapLoad(geolocation.coords, state);
+
+        //$("#map").hide();
         console.log("onMapAPiLoaded triggered.");
 
     };
 
 
 
-
+    //main event listener
     document.addEventListener("deviceready", onDeviceReady, false);
 
     // return test;
