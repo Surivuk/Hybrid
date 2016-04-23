@@ -1,120 +1,54 @@
 var dashboard = function(state) {
     var self = this;
-    var view_state = state;
 
-    var position = {};
+    //map pointer (google.maps.Map object with API functions)
     var mapPTR = {};
-    var htmlLoaded = false;
-    var flagForMapLoad = false;
+    var mapZoom = 16;
+    //flag for anti spam
+    var clicked = false;
 
-    this.show = function(jqueryElement) {
+    //shows map with css magic
+    this.show = function(jqueryElement, position) {
+        if (!clicked) {
+            jqueryElement.empty();
 
-        //self.getDeviceLocation();
-        //jqueryElement.empty();
-        jqueryElement.load("html/dashboard.html", function() {
+            $("#map").css({ opacity: 1, zoom: 1 });
+            $("#map").css('z-index', 0);
+            clicked = true;
+        } else if (clicked) {
+            $("#map").css({ opacity: 1, zoom: 1 });
+            $("#map").css('z-index', 0);
 
-            var h = window.screen.height * window.devicePixelRatio;
-            $("#map").height(h * 0.85);
-            $("#save").click(function() {
-
-                if (typeof(Storage) !== "undefined") {
-                    // Code for localStorage/sessionStorage.
-                    var key = "hard"; //$("#key").attr('value');
-                    var value = "coded"; //$("#value").attr('value');
-                    localStorage.setItem(key, value);
-
-                } else {
-                    alert("No storage support!");
-                }
-            });
-            $("#show").click(function() {
-                if (typeof(Storage) !== "undefined") {
-                    // Code for localStorage/sessionStorage.
-                    alert(localStorage.getItem("hard"));
-
-                } else {
-                    alert("No storage support!");
-                }
-            });
-            htmlLoaded = true;
-            if (flagForMapLoad) {
-                self.mapLoad(position);
-            }
-            console.log("dashboard loaded.");
-        });
-
-    }
-    this.mapLoad = function(pos) {
-
-        if (htmlLoaded) {
-
-
-            var center = {};
-            if (typeof pos != 'undefined' && typeof pos.coords != 'undefined') {
-
-                center = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-
-            } else {
-
-                center = { lat: 0.0, lng: 0.0 };
-            }
-
-            if (navigator.connection.type === Connection.NONE || (window.google !== undefined && window.google.maps)) {
-
-                //re init for map
-                mapPTR = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 8,
-                    center: center
-                });
-
-                return;
-            }
-
-            //TODO: Add your own Google maps API key to the URL below.
-            $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTpGOYpsxSsT2ku_NHGooQilONWiOs8k', function(data, textStatus, jqxhr) {
-                console.log(data); // Data returned
-                console.log(textStatus); // Success
-                console.log(jqxhr.status); // 200
-                mapPTR = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 8,
-                    center: center
-                });
-            });
-        } else {
-            flagForMapLoad = true;
-            position = pos;
         }
 
+        console.log("dashboard loaded.");
     }
+    //pull map back and make it invisible
+    this.hideMap = function() {
+        $("#map").css({ opacity: 0, zoom: 0 });
+        $("#map").css('z-index', -5);
+    }
+    //create new map object with position passed and state
+    this.newMapLoad = function(position, state) {
 
-    this.mapUpdate = function(position) {
+        mapPTR = new google.maps.Map(document.getElementById("map"), {
+            zoom: mapZoom,
+            center: { lat: position.latitude, lng: position.longitude }
+        });
+        if (state == 2) {
+            $("#map").css({ opacity: 1, zoom: 1 });
+        } else {
+            $("#map").css({ opacity: 0, zoom: 0 });
+        }
+        //alert("New map load trigger,state:" + state);
+        console.log("New map load trigger,state:" + state);
 
-            if (typeof google == 'undefined') {
-                console.log("Map tried to update,but google wasnt loaded.");
-                return;
-            }
-            var myLatLng = { lat: position.coords.latitude, lng: position.coords.longitude };
 
-            var marker = new google.maps.Marker({
-                position: myLatLng,
-                map: mapPTR,
-                title: 'Your position -- lat: ' + myLatLng.lat + "  lng: " + myLatLng.lng
-            });
+    }
+    //update map center when GPS location triggers ( this is essencially callback when you change your location dramatically)
+    this.mapUpdate = function(position, map) {
+
+            mapPTR.setCenter({ lat: position.latitude, lng: position.longitude });
             console.log("Map updated.");
         }
-        /*this.getDeviceLocation = function() {
-    }
-    navigator.geolocation.getCurrentPosition(function(position) { self.deviceLocated(position); },
-        function(error) { self.deviceLocationError; });
-}
-this.deviceLocated = function(position) {
-    self.position = position;
-    console.log(position);
-}
-this.deviceLocationError = function(error) {
-    console.log(error);
-    alert(error.message);
-}
-*/
-
 }

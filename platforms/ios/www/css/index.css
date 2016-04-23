@@ -33,7 +33,7 @@ body {
     background: #e6f2ff;
     /* IE6-9 */
     background-attachment: fixed;
-    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 12px;
     height: 100%;
     margin: 0px;
@@ -108,4 +108,8 @@ h1 {
 .blink {
     animation: fade 3000ms infinite;
     -webkit-animation: fade 3000ms infinite;
+}
+
+#map {
+    z-index: -5;
 }
