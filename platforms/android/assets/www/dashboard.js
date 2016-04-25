@@ -1,22 +1,17 @@
 var dashboard = function(state) {
     var self = this;
-    var view_state = state;
 
-    //var position = {};
+    //map pointer (google.maps.Map object with API functions)
     var mapPTR = {};
-    var htmlLoaded = false;
-    var flagForMapLoad = false;
-
     var mapZoom = 16;
+    //flag for anti spam
     var clicked = false;
+
+    //shows map with css magic
     this.show = function(jqueryElement, position) {
         if (!clicked) {
             jqueryElement.empty();
-            /*mapPTR = new google.maps.Map(document.getElementById("map"), {
-                zoom: mapZoom,
-                center: { lat: position.latitude, lng: position.longitude }
-            });
-*/
+
             $("#map").css({ opacity: 1, zoom: 1 });
             $("#map").css('z-index', 0);
             clicked = true;
@@ -26,45 +21,14 @@ var dashboard = function(state) {
 
         }
 
-
-
-
-        /*jqueryElement.load("html/dashboard.html", function() {
-
-
-            $("#save").click(function() {
-
-                if (typeof(Storage) !== "undefined") {
-                    // Code for localStorage/sessionStorage.
-                    var key = "hard"; //$("#key").attr('value');
-                    var value = "coded"; //$("#value").attr('value');
-                    localStorage.setItem(key, value);
-
-                } else {
-                    alert("No storage support!");
-                }
-            });
-            $("#show").click(function() {
-                if (typeof(Storage) !== "undefined") {
-                    // Code for localStorage/sessionStorage.
-                    alert(localStorage.getItem("hard"));
-
-                } else {
-                    alert("No storage support!");
-                }
-            });
-            htmlLoaded = true;
-            if (flagForMapLoad) {
-                self.mapLoad(position);
-            }
-
-        });*/
         console.log("dashboard loaded.");
     }
+    //pull map back and make it invisible
     this.hideMap = function() {
         $("#map").css({ opacity: 0, zoom: 0 });
         $("#map").css('z-index', -5);
     }
+    //create new map object with position passed and state
     this.newMapLoad = function(position, state) {
 
         mapPTR = new google.maps.Map(document.getElementById("map"), {
@@ -76,28 +40,15 @@ var dashboard = function(state) {
         } else {
             $("#map").css({ opacity: 0, zoom: 0 });
         }
-        alert("New map load trigger,state:" + state);
+        //alert("New map load trigger,state:" + state);
+        console.log("New map load trigger,state:" + state);
+
 
     }
-
+    //update map center when GPS location triggers ( this is essencially callback when you change your location dramatically)
     this.mapUpdate = function(position, map) {
 
             mapPTR.setCenter({ lat: position.latitude, lng: position.longitude });
             console.log("Map updated.");
         }
-        /*this.getDeviceLocation = function() {
-    }
-    navigator.geolocation.getCurrentPosition(function(position) { self.deviceLocated(position); },
-        function(error) { self.deviceLocationError; });
-}
-this.deviceLocated = function(position) {
-    self.position = position;
-    console.log(position);
-}
-this.deviceLocationError = function(error) {
-    console.log(error);
-    alert(error.message);
-}
-*/
-
 }

@@ -2,23 +2,29 @@ var compass = function()
 {
 
     var self = this;
+    //canvas(DOM),drawing context,needle and compass ( images )
     var canvas = null;
     var ctx = null;
     var needle = null;
     var compassBody = null;
+    //magnetic facing in degrees
     var degrees = 0;
-    var IntervalID = {};
+    //var IntervalID = {};
 
+    //watch for compass ( used for turning on and off the compass monitoring)
     var CompassWatchID = {};
 
-    var factorBW = 1;
+    /*var factorBW = 1;
     var factorBH = 1;
     var factorNW = 1;
-    var factorNH = 1;
+    var factorNH = 1;*/
+
+    //clear canvas and set dims
     this.clearCanvas = function(x,y)
     {
         ctx.clearRect(0,0,x,y);
     }
+    //compass drawing
     this.draw = function() {
       var width = compassBody.width;
       var height = compassBody.height
@@ -30,8 +36,8 @@ var compass = function()
       // Save the current drawing state
       ctx.save();
 
-      // Now move across and down half the
-      ctx.translate(100, 110);
+      // Now move across and down half the (10 offset because picture is retarded.)
+      ctx.translate(compassBody.width/2, compassBody.height/2+10);
 
       // Rotate around this point
       ctx.rotate(degrees * (Math.PI / 180));
@@ -42,9 +48,9 @@ var compass = function()
       // Restore the previous drawing state
       ctx.restore();
 
-      // Increment the angle of the needle by 5 degrees
-      //degrees += 5;
+
 }
+    //add the canvas to modal in index.html and bind stopCompass on close
     this.show = function(jqueryElement)
     {
        jqueryElement.load('html/compass.html',function(){
@@ -53,12 +59,14 @@ var compass = function()
             self.stopCompass();
           });
           self.compassInit();
-          //IntervalID = setInterval(function(){ self.draw(); }, 100);
-          var options = { frequency: 500 };  // Update every 3 seconds
+
+          var options = { frequency: 500 };  // Update every 0.5 seconds
+
+          //start watching device compass and callback on success and error
           CompassWatchID = navigator.compass.watchHeading(self.onSuccess, self.onError, options);
        });
     }
-
+    //canvas,context and images init
     this.compassInit = function()
     {
 
@@ -92,7 +100,8 @@ var compass = function()
       navigator.compass.clearWatch(CompassWatchID);
     }
 
-
+    //update degrees with magneticHeading propraty and redraw
+    //possible upgrade ( redrow only the arrow )
     this.onSuccess = function(heading) {
       degrees = heading.magneticHeading;
       console.log("Compass updated,object:");
@@ -105,6 +114,8 @@ var compass = function()
         alert('Compass error: ' + compassError.code);
     };
 
+    //css wizardry , #notused
+    /*
     function rotate(degrees,jqueryElement){
     jqueryElement.css({
     "webkitTransform":"rotate("+degrees+"deg)",
@@ -122,7 +133,7 @@ var compass = function()
     "OTransform":"scale("+x+","+y+")",
     "transform":"scale("+x+","+y+")"
   });
-  }
+  }*/
 
 
 

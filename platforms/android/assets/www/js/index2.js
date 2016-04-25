@@ -1,23 +1,31 @@
 var app = (function(global) {
     "use strict";
+    //use strict means you cant use global variables , e.g variable without var (clean global scope)
     var test = {};
+
+    //singlton objects representing controllers,observers whatever.
     var _dashboard = {};
     var _home = {};
     var _setup = {};
     var _login = {};
     var _compass = {};
 
+    //state of the view (what is user seeing in any given moment)
     var state = 0;
+    //GPS location
     var geolocation = {};
     geolocation.coords = {};
     geolocation.coords.latitude = 0.0;
     geolocation.coords.longitude = 0.0;
-    var firstTime = true;
+    //var firstTime = true;
 
+    //watchID for geolocation plugin ( for stoping end starting )
     var GeolocationWatchID;
 
     var batteryState = {};
 
+
+    //all the menu / navigation events
     function eventBind() {
 
         $("#settingsLink").click(function() {
@@ -44,7 +52,7 @@ var app = (function(global) {
             _dashboard.show($("#content"), geolocation.coords);
 
             state = 2;
-            alert("Stanje posle dashboard click-a :"+state);
+            //alert("Stanje posle dashboard click-a :"+state);
         });
         $("#homeLink").click(function() {
             if (state == 2) {
@@ -59,7 +67,7 @@ var app = (function(global) {
 
             state = 3;
         });
-        var test = $("#compass");
+
         $("#compass").click(function() {
             console.log("Compass clicked");
 
@@ -87,12 +95,10 @@ var app = (function(global) {
             state = 4;
         });
 
-
-
     }
 
 
-
+    //main entry point
     function onDeviceReady() {
         console.log("On device ready triggered.");
         //check local storage for
@@ -133,20 +139,22 @@ var app = (function(global) {
 
     }
 
-
+    //update home instance when battery changes
     function onBatteryStatus(status) {
         _home.updateBatteryStatus(status);
         //alert("Level: " + status.level + " isPlugged: " + status.isPlugged);
     }
 
     function onBatteryCritical(status) {
-        alert("Battery critical!Status:" + status);
+        //alert("Battery critical!Status:" + status);
     }
 
     function onBatteryLow(status) {
-        alert("Battery low!Status:" + status);
+        //alert("Battery low!Status:" + status);
     }
 
+    //callback for geolocation watch trigger,home instance location update
+    //and dashboard map update
     function onSuccess(position) {
         geolocation = position;
         _home.updateGeolocation(geolocation);
@@ -167,28 +175,29 @@ var app = (function(global) {
     //
     function onError(error) {
         console.log(error);
-        alert('code: ' + error.code + '\n' +
-            'message: ' + error.message + '\n');
+        //alert('code: ' + error.code + '\n' +'message: ' + error.message + '\n');
         loadMapsApi();
     }
 
+    //callbacks for device state (connectivity and resuming)
     function onOnline() {
-        alert("device online");
+        //alert("device online");
         loadMapsApi();
     }
 
     function onResume() {
-        alert("Device is resumed.");
+        //alert("Device is resumed.");
         loadMapsApi();
     }
 
     function onOffline() {
-        alert("device offline");
+        //alert("device offline");
     }
 
+    //loads scripts if you are connected and script isn't loaded
     function loadMapsApi() {
 
-        firstTime = false;
+        //firstTime = false;
         //_dashboard.mapLoad(geolocation);
 
 
@@ -200,7 +209,7 @@ var app = (function(global) {
         //TODO: Add your own Google maps API key to the URL below.
         $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTpGOYpsxSsT2ku_NHGooQilONWiOs8k&callback=onMapsApiLoaded');
     }
-
+    //global function for script onload,map size callculation and dashboard prompt for creation.
     global.onMapsApiLoaded = function() {
         // Maps API loaded and ready to be used.
 
@@ -216,7 +225,7 @@ var app = (function(global) {
 
 
 
-
+    //main event listener
     document.addEventListener("deviceready", onDeviceReady, false);
 
     // return test;

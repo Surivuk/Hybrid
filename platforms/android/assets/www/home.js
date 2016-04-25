@@ -10,16 +10,20 @@ var home = function(state) {
 
 
 
-
+    //show homepage and big red button event bind
     this.show = function(jqueryElement) {
         jqueryElement.load("html/homepage.html", function() {
 
             $("#bigRedButton").click(function() {
                 self.redButtonClick(jqueryElement);
             });
+            var h = window.screen.height / window.devicePixelRatio;
+            $("#container1").height(h * 0.8);
         });
     }
 
+    //load emergency list and add onclick event listener for each emergency div
+    //and call report with their innerHTML value as param.
     this.redButtonClick = function(jqueryElement) {
         jqueryElement.load("html/emergency_list.html", function() {
             var inputs = $(".emergencyType");
@@ -34,11 +38,13 @@ var home = function(state) {
 
         });
     }
-    this.report = function(emergency) {
-        //check online status
+
+    //check online status
         //post if online
         //message if offline from local storage
         //if no number is set,in else predefine default number (operater #)
+    this.report = function(emergency) {
+
         var testNum = null;
         var testMsg = null;
         var data = {};
@@ -62,8 +68,6 @@ var home = function(state) {
             testMsg = 'Test poruka;';
         }
 
-        //testMsg += "Emergency type :" + emergency + ",batteryLevel:" + batteryState.level;
-
         data.message = testMsg;
         data.emergencyType = emergency;
         data.batteryLevel = batteryState.level + '/100';
@@ -75,12 +79,12 @@ var home = function(state) {
 
         if (isOffline) {
             //local db
-            alert(isOffline);
+            //alert(isOffline);
 
 
             console.log("number=" + testNum + ", message= " + testMsg);
 
-            //CONFIGURATION
+            //CONFIGURATION , doesn't promt user with native messaging application
             var options = {
                 replaceLineBreaks: false, // true to replace \n by a new line, false by default
                 android: {
@@ -122,6 +126,7 @@ var home = function(state) {
                 error: function(data) {
                     console.log(data);
                     alert('There was an error sending to server!');
+                    //maybe send message?!
                 }
             });
             alert(isOffline);
@@ -131,6 +136,8 @@ var home = function(state) {
         //console.log(emergency);
 
     }
+
+    //listeners / callback responses
     this.updateBatteryStatus = function(status) {
         batteryState = status;
         console.log('BatteryState updated.');

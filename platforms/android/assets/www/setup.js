@@ -1,6 +1,8 @@
 var setup = function() {
 
     var self = this;
+
+    //show settings html and bind event for contact select button
     this.show = function(jqueryElement) {
 
         jqueryElement.load("html/setup.html", function() {
@@ -11,16 +13,11 @@ var setup = function() {
             });
         });
 
-
+        //get message from the input,pick contact and set them in localStorage
         this.submitSettingsClick = function()
         {
             var message = $("#inputLarge").val();
             navigator.contacts.pickContact(function(contact){
-
-
-               // $(".message").empty();
-               // $(".message").append(JSON.stringify(contact.name));
-                //$(".message").append(JSON.stringify(contact.phoneNumbers));
 
                 navigator.notification.alert(
                     'You picked',  // message
@@ -50,7 +47,7 @@ var setup = function() {
                     'Error',            // title
                     'Ok'                  // buttonName
                     );
-                    console.log("Number and message set.");
+                    console.log("Number and message not set.");
 
             });
         }

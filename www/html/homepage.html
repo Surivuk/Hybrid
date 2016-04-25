@@ -1,46 +1,10 @@
 <section id="homeView">
-    <div id="container1">
-      <div id="chat" class="well">
-      </div>
-    </div>
-    <div class="parent">
-        <a id="bigRedButton" href="javascript:void(0)" class="btn btn-raised btn-danger midButton">Help!!!</a>
+	<div class="home_container">
+		<div class="logo"></div>
+    	<div class="red_button" id="bigRedButton">
+    		<span></span>
+    	    <a>HELP</a>
+    	    <span></span>
+    	</div>
     </div>
 </section>
-<style>
-.midButton {
-    position: absolute;
-    top: 75%;
-    left: 0;
-    z-index: 0;
-    width:100%;
-    height:10%;
-    font-size: xx-large;
-}
-#container1{
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-}
-
-#chat{
-    width: 100%;
-    height: 500px;
-    background-color:silver;
-    overflow: auto;
-    padding-right: 0px; /* exact value is given in JavaScript code */
-}
-::-webkit-scrollbar {
-    width: 12px;
-}
-
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
-}
-</style>
